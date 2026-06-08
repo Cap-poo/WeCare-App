@@ -1,0 +1,85 @@
+
+# Sell product to the customer 
+def sell_product(products): 
+    try: 
+        while True: 
+            customer_name = input("Enter the name: ") 
+            if customer_name.replace(" ", "").isalpha() and len(customer_name) > 2: # 
+customer name should be more than 2 letter 
+                break 
+            else: 
+                print("Enter a valid Name.") 
+ 
+        while True: 
+            phone_number = input("Enter phone number: ") 
+            if phone_number.isdigit() and len(phone_number) == 10: #phone number 
+entered by customer should be of 10 digits 
+                break 
+            else: 
+                print("Enter valid number of digits.") 
+ 
+        cart = [] 
+        grand_total = 0 
+ 
+        while True: 
+            print("\nThe avaliable Products are listed below:\n") 
+            print("S.N.\tProduct Name\t\tBrand\t\t\tQuantity\tPrice") 
+print("_________________________________________________________________
+________________") 
+            for product_id, product_info in products.items(): 
+                product_name = product_info[0] 
+                brand = product_info[1] 
+                stock = product_info[2] 
+                price = int(product_info[3]) * 2 
+                print(str(product_id) + "\t" + product_name + "\t\t" + brand + "\t\t" + stock + 
+"\t\t" + str(price)) 
+            
+print("_________________________________________________________________
+_________________") 
+ 
+            while True: 
+                selected = input("Enter the Product ID to sell: ") 
+                if selected.isdigit(): 
+                    selected_id = int(selected) 
+                    if selected_id in products: 
+                        break 
+                    else: 
+                        print("The ID entered is not availabe,Please enter a valid product ID.") 
+                else: 
+                    print("Invalid ID, The entered ID shold be of positive number.") 
+ 
+            try: 
+                quantity = int(input("Enter Quantity to Sell: ")) 
+            except ValueError: 
+                print("Invalid quantity. enter the integer.") 
+                continue 
+ 
+            available_stock = int(products[selected_id][2]) 
+            free_items = quantity // 3 
+            total_required = quantity + free_items 
+ 
+            if total_required > available_stock: 
+                print("Not sufficient Quantity.") #the product quantity is not sufficient 
+                continue 
+ 
+            products[selected_id][2] = str(available_stock - total_required) 
+            unit_price = int(products[selected_id][3]) * 2 
+            item_total = unit_price * quantity 
+            grand_total += item_total 
+ 
+            cart.append({ 
+                "product_name": products[selected_id][0],
+  "brand": products[selected_id][1], 
+                "quantity": quantity, 
+                "unit_price": unit_price, 
+                "total": item_total 
+            }) 
+ 
+            more = input("Want to sell more products (y/n): ").lower() 
+            if not more == 'y': # if the user says no, break the program and create an invoice. 
+                break 
+ 
+        invoice_generation("sale", customer_name, phone_number, cart,grand_total) 
+ 
+    except Exception as e: 
+        print("An error occurred: " + str(e))
