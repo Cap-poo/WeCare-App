@@ -1,0 +1,37 @@
+ 
+# Main logic 
+''' 
+Imports moudels, read, write and operation and their functions read_product 
+write_product, sell_product and restock_product  
+''' 
+from read import read_products 
+from write import write_products 
+from operation import sell_product, restock_product 
+ 
+#function named main 
+def main(): 
+    print("_____________________Welcome to WeCare Wholesale 
+System_______________________") 
+    products = read_products() #calls read_products function to load product from .txt file 
+ 
+    while True: 
+        print("\nEnter 1 --> Sell The Avaliable Products") 
+        print("Enter 2 -->  Purchase and Restock Products") 
+        print("Enter 3 --> Exit") 
+        try: 
+            choice = int(input("Choose an valid Option: ")) #user input  
+            if choice == 1: 
+                sell_product(products) 
+            elif choice == 2: 
+                restock_product(products) 
+            elif choice == 3: 
+                write_products(products) 
+                print("Thank you and, visit again.") 
+                break 
+            else: 
+                print("Invalid Option, Please Choose valid option.") 
+        except ValueError: 
+            print("Please choose valid Option.") 
+ 
+if __name__ == "__main__": 
+    main()
