@@ -1,0 +1,77 @@
+# Restocking function 
+#function 
+def restock_product(products): 
+    try: 
+        while True: 
+            vendor_name = input("Enter the name of vendor: ") 
+            if vendor_name.replace(" ", "").isalpha() and len(vendor_name) > 2: #the 
+entered name should be more than 2 letters 
+                break 
+            else: 
+                print("Enter valid name") 
+ 
+        while True: 
+            phone = input("Enter the phone number: ") 
+            if phone.isdigit() and len(phone) == 10: # the entered digit should be of 10 digits 
+                break 
+            else: 
+                print("Please enter a valid phone number.") 
+ 
+        cart = [] 
+        total_cost = 0 
+ 
+        while True: 
+            print("\nWe have the products listed below available\n") 
+            print("S.N.\tProduct Name\tBrand\t\tStock\tPrice") 
+            
+print("_________________________________________________________________
+______________") 
+            
+for product_id, product_info in products.items(): 
+print(str(product_id) + "\t" + product_info[0] + "\t" + product_info[1] + "\t" + 
+product_info[2] + "\t" + product_info[3]) 
+            
+print("_________________________________________________________________
+____________") 
+ 
+            while True: 
+                enter_product_id = input("Enter product ID to restock the product: ") 
+                if enter_product_id.isdigit(): 
+                    selected_id = int(enter_product_id) 
+                    if selected_id in products: 
+                        break 
+                    else: 
+                        print("The entered ID does not exist, please enter a valid ID.") 
+                else: 
+                    print("Invalid ID, The entered ID shold be of positive number.") 
+ 
+            try: 
+                quantity = int(input("Enter the Quantity to add: ")) 
+            except ValueError: 
+                print("Invalid quantity. Please enter a number/ digits.") 
+                continue 
+ 
+            price = input("New cost price: ") 
+            if price: 
+                products[selected_id][3] = price 
+ 
+            unit_price = int(products[selected_id][3]) 
+            total = unit_price * quantity 
+            total_cost += total 
+ 
+            products[selected_id][2] = str(int(products[selected_id][2]) + quantity) 
+ 
+            cart.append({ 
+                "product_name": products[selected_id][0], 
+                "brand": products[selected_id][1], 
+                "quantity": quantity, 
+                "unit_price": unit_price, 
+                "total": total 
+            }) 
+ 
+            more = input("Restock more items? (y/n): ").lower() 
+            if not more == 'y': #if users says no, the program breaks and creates an invoice 
+                break 
+ 
+        invoice_generation("restock", vendor_name, phone, cart, total_cost)
+
