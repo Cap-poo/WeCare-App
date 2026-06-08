@@ -1,0 +1,17 @@
+# reads file called product.txt 
+def read_products(filename='products.txt'): 
+    products = {} 
+    try: 
+        '''search for product.txt file and if not 
+        found throws file not found error ''' 
+        with open(filename, "r") as file: 
+            info = file.readlines() 
+            product_number = 1 #the ID starts with 1  
+            for line in info: 
+                line = line.replace("\n", "")   
+                product_data = line.split(",")   
+                products[product_number] = product_data 
+                product_number += 1 
+    except FileNotFoundError: 
+        print("File not found.") 
+    return products
